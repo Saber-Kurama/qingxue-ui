@@ -1,35 +1,36 @@
 const createVuePlugin = require('@vitejs/plugin-vue')
-// const getTransformedVueSrc = require('./utils/get-demo-by-path')
+const getTransformedVueSrc = require('./utils/get-demo-by-path')
 // const createCssrPlugin = require('./vite-plugin-css-render')
 // const siteIndexTransFormPlugin = require('./vite-plugin-index-tranform')
 
-// const fileRegex = /\.(md|entry)$/
+const fileRegex = /\.(md|entry)$/
 
 const vuePlugin = createVuePlugin({
   include: [/\.vue$/, /\.md$/, /\.entry$/]
 })
 
 const createDemoPlugin = () => {
-  return [vuePlugin]
-  // const naiveDemoVitePlugin = {
-  //   name: 'demo-vite',
-  //   transform (_, id) {
-  //     if (fileRegex.test(id)) {
-  //       return getTransformedVueSrc(id)
-  //     }
-  //   },
-  //   async handleHotUpdate (ctx) {
-  //     const { file } = ctx
-  //     if (fileRegex.test(file)) {
-  //       const code = await getTransformedVueSrc(file)
-  //       return vuePlugin.handleHotUpdate({
-  //         ...ctx,
-  //         read: () => code
-  //       })
-  //     }
-  //   }
-  // }
+  
+  const naiveDemoVitePlugin = {
+    name: 'demo-vite',
+    transform (_, id) {
+      if (fileRegex.test(id)) {
+        return getTransformedVueSrc(id)
+      }
+    },
+    async handleHotUpdate (ctx) {
+      // const { file } = ctx
+      // if (fileRegex.test(file)) {
+      //   const code = await getTransformedVueSrc(file)
+      //   return vuePlugin.handleHotUpdate({
+      //     ...ctx,
+      //     read: () => code
+      //   })
+      // }
+    }
+  }
 
+  return [naiveDemoVitePlugin, vuePlugin]
   // const cssrPlugin = createCssrPlugin()
 
   // return [siteIndexTransFormPlugin, naiveDemoVitePlugin, vuePlugin, cssrPlugin]
