@@ -1,1 +1,3 @@
-console.log('开始进行中')
+export { default } from './preset'
+
+export * from './components'
